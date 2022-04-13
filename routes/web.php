@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// ROUTES
+Route::controller(AuthController::class)->prefix('/')->group(function (Router $route): void {
+	// GET
+    $route->get('', 'index')->name('welcome');
+	$route->get('/login', 'login-prompt')->name('login-prompt');
+	$route->post('/login', 'login')->name('login');
 });
