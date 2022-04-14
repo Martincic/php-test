@@ -2,19 +2,22 @@
 
 namespace App\Providers;
 
+use App\Models\ApiUser;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class QAuthUserProvider implements UserProvider
 {
-	public function retrieveById($id) : GenericUser
+	public function retrieveById($id) : ApiUser
 	{
-		return new GenericUser([
-			'id' => $id,
-			'email' => $id
-		]);
+		//if user matches session user, fetch
+		if(session('user')->id == $id) return session('user');
+		
+		//else return generic
+		return new GenericUser(['remember_token'=>null]);
 	}
 
 	public function retrieveByToken($id, $token) : void
@@ -27,30 +30,26 @@ class QAuthUserProvider implements UserProvider
 		// user provider interface requires
 	}
 
-	public function retrieveByCredentials(array $credentials) : GenericUser
+	public function retrieveByCredentials(array $credentials) : ?ApiUser
 	{
-		if(!empty($credentials['email'])) return new GenericUser([
-			'id' => $credentials['email'],
-			'email' => $credentials['email']
-		]);
+		$response = Http::post(env("Q_API"), [
+            // $user is the ApiUser instance created in
+            // the retrieveByCredentials() method above.
+            'email' => $credentials['email'],
+            'password' => $credentials['password'],
+        ])->json();
 
-		return new GenericUser([
-			'id' => $credentials['email'],
-			'email' => $credentials['email']
-		]);
+		$user = new ApiUser($response);
+
+		session(['user' => $user]);
+		
+		return $user;
 	}
 
 	public function validateCredentials(Authenticatable $user, array $credentials)
 	{
-		if(empty($credentials['password'])) return false;
-		
-		$response = Http::post(env("Q_API"), [
-            // $user is the GenericUser instance created in
-            // the retrieveByCredentials() method above.
-            'email' => $user->email,
-            'password' => $credentials['password'],
-        ]);
-
-        return $response->ok();
+		//this is called after retrieveByCredentials,
+		//thus if api fails, this is never called
+		return true;
 	}
 }

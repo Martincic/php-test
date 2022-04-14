@@ -10,21 +10,21 @@ class AuthController extends Controller
 {
     public function index()
     {
-        dump(Auth::login(new User([
-            'email' => 'ahsoka.tano@q.agency',
-            'password' => 'Kryze4President',
-            'test' => 1234,
-            'bool' => true,
-            'object' => null
-        ])));
-
-        dump(Auth::user());
-
-        
-        dd();
-
-
-
         return view('welcome');
+    }
+
+    public function loginPrompt()
+    {
+        return view('login');
+    }
+    
+    public function login(Request $request)
+    {
+        Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+        
+		return redirect()->intended(route('home'));
     }
 }

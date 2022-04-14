@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +17,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// ROUTES
-Route::controller(AuthController::class)->prefix('/')->group(function (Router $route): void {
+// PUBLIC ROUTES
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// AUTH ROUTES
+Route::controller(AuthController::class)->prefix('/auth')->group(function (Router $route): void {
 	// GET
-    $route->get('', 'index')->name('welcome');
-	$route->get('/login', 'login-prompt')->name('login-prompt');
-	$route->post('/login', 'login')->name('login');
+	$route->get('login', 'loginPrompt')->name('login');
+	// $route->post('login', function () {
+	// 	echo 123;
+	// });
+	$route->post('login', 'login')->name('post-login');
+	
+	$route->get('/logout', function () {
+		Auth::logout();
+		return redirect('/');
+	})->name('logout');
+
+});
+
+// PROTECTED ROUTES
+Route::middleware('auth')->group(function (Router $route): void {
+	// GET
+	$route->get('/home', function () {
+		dd(Auth::user());
+		return view('home')->with(['user' => Auth::user()]);
+	})->name('home');
+	
+	$route->get('/test', function () {
+		return view('home')->with(['user' => Auth::user()]);
+	})->name('test');
 });
