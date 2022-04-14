@@ -23,6 +23,30 @@ class QApiHandler {
         ]);
         return $this->response($data);
     }
+    
+    public function getAuthors()
+    {
+        $data = $this->client->withToken($this->user->token_key)->get('v2/authors');
+        return $this->response($data);
+    }
+
+    public function getAuthor($id)
+    {
+        $data = $this->client->withToken($this->user->token_key)->get('v2/authors/'.$id);
+        return $this->response($data);
+    }
+
+    public function getBooks()
+    {
+        $data = $this->client->withToken($this->user->token_key)->get('v2/books');
+        return $this->response($data);
+    }
+    
+    public function getBook($id)
+    {
+        $data = $this->client->withToken($this->user->token_key)->get('v2/books/'.$id);
+        return $this->response($data);
+    }
 
     protected function response($data)
     {

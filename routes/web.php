@@ -54,9 +54,15 @@ Route::middleware('auth')->group(function (Router $route): void {
 		$route->delete('{book_id}', 'delete')->name('delete');
 	});
 
-	$route->get('/authors', function () {
-		return view('home')->with(['user' => Auth::user()]);
-	})->name('authors');
+	// AUTHOR ROUTES
+	$route->prefix('/authors')->name('authors.')->controller(AuthorController::class)->group(function (Router $route): void {
+		// GET
+		$route->get('', 'index')->name('list');
+		$route->get('{author_id}', 'single')->name('single');
+		
+		// DELETE
+		$route->delete('{author_id}', 'delete')->name('delete');
+	});
 	
 	$route->get('/profile', function () {
 		return view('home')->with(['user' => Auth::user()]);

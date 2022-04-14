@@ -25,8 +25,8 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                    <a href="{{ route('authors') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Authors</a> |
-                    <a href="{{ route('books') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Books</a> |
+                    <a href="{{ route('authors.list') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Authors</a> |
+                    <a href="{{ route('books.list') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Books</a> |
                     <a href="{{ route('profile') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Profile</a> |
                     <a href="{{ route('logout') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log out</a> 
                     @else
