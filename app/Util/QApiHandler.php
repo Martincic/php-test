@@ -60,6 +60,12 @@ class QApiHandler {
         $data = $this->client->withToken($this->user->token_key)->get('v2/books/'.$id);
         return $this->response($data);
     }
+    
+    public function deleteBook($id)
+    {
+        $data = $this->client->withToken($this->user->token_key)->delete('v2/books/'.$id);
+        return $this->response($data);
+    }
 
     protected function response($data)
     {

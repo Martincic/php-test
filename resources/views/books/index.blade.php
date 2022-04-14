@@ -1,6 +1,10 @@
 @extends('template')
 @section('content')
 
+@if (session()->get('book_deleted') != null)
+<h4 style="color:green">Book {{session()->get('book_deleted')->title}} was successfully deleted!</h4>
+@endif
+
 @foreach ($books as $book)
     <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2">

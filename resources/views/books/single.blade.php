@@ -27,6 +27,10 @@
                     </ul>
                 </div>
             </div>
+            <form action="{{route('books.delete', $book->id)}}" method='post'>
+                @csrf
+                <button style='color:red' type="submit">Delete {{$book->title}}</button>
+            </form>
         </div>
     </div>
 </div>

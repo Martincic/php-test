@@ -41,17 +41,10 @@ Route::middleware('auth')->group(function (Router $route): void {
 	$route->prefix('/books')->name('books.')->controller(BookController::class)->group(function (Router $route): void {
 		// GET
 		$route->get('', 'index')->name('list');
-		$route->get('create', 'create')->name('create');
 		$route->get('{book_id}', 'single')->name('single');
 		
-		// POST
-		$route->post('', 'store')->name('store');
-		
-		// PUT
-		$route->put('{book_id}', 'update')->name('update');
-		
-		// DELETE
-		$route->delete('{book_id}', 'delete')->name('delete');
+		// DELETE (should be delete but form requests dont support DELETE)
+		$route->post('{book_id}', 'delete')->name('delete');
 	});
 
 	// AUTHOR ROUTES
@@ -64,6 +57,7 @@ Route::middleware('auth')->group(function (Router $route): void {
 		$route->post('{author_id}', 'delete')->name('delete');
 	});
 	
+	// PROFILE ROUTE - seemed like overkill to make a controller just for this
 	$route->get('/profile', function () {
 		return view('home')->with(['user' => Auth::user()]);
 	})->name('profile');

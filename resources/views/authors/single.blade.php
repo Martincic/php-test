@@ -31,6 +31,11 @@
                             <li>Format: {{$book->format}}</li>
                             <li>Pages: {{$book->number_of_pages}}</li>
                         </ul>
+                        
+                        <form action="{{route('books.delete', $book->id)}}" method='post'>
+                            @csrf
+                            <button style='color:red' type="submit">Delete {{$book->title}}</button>
+                        </form>
                     </div>
                     ------------------------------
                 @endforeach

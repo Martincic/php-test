@@ -25,4 +25,13 @@ class BookController extends Controller
         $book = new Book($handler->getBook($book_id));
         return view('books.single')->with('book', $book);
     }
+    
+    public function delete(string $book_id)
+    {
+        $handler = new QApiHandler(Auth::user());
+        $book = new Book($handler->getBook($book_id));
+
+        $handler->deleteBook($book_id);
+        return redirect('books')->with('book_deleted', $book);
+    }
 }
