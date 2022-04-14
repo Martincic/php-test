@@ -23,7 +23,16 @@
                 <h3>Books</h3>
                 <ul>
                 @foreach ($author->books as $book)
-                    <li>{{ $book->title }}</li>
+                    <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                        <h4><a href="{{route('books.single', $book->id)}}" class='underline'>{{ $book->title }}</a></h4>
+                        <ul>
+                            <li>Release date: {{$book->release}}</li>
+                            <li>ISBN: {{$book->isbn}}</li>
+                            <li>Format: {{$book->format}}</li>
+                            <li>Pages: {{$book->number_of_pages}}</li>
+                        </ul>
+                    </div>
+                    ------------------------------
                 @endforeach
                 </ul>
             @endif

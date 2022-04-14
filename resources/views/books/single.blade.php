@@ -1,8 +1,6 @@
 @extends('template')
 @section('content')
-
-@foreach ($books as $book)
-    <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+<div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2">
         <div class="p-6">
             <div class="flex items-center">
@@ -17,10 +15,20 @@
                     <li>Format: {{$book->format}}</li>
                     <li>Pages: {{$book->number_of_pages}}</li>
                 </ul>
+                <h3>Description</h3>
+                <p>{{$book->description}}</p>
+
+                <h3>Author - <a class='underline' href="{{route('authors.single', $book->author->id)}}">{{$book->author->name}}</a></h3>
+                <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                    <ul>
+                        <li>Birthday: {{ $book->author->birth_date }}</li>
+                        <li>Gender: {{$book->author->gender}}</li>
+                        <li>Place of birth: {{$book->author->place_of_birth}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
-@endforeach
 
 @endsection

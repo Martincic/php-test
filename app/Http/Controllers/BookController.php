@@ -23,6 +23,6 @@ class BookController extends Controller
     {
         $handler = new QApiHandler(Auth::user());
         $book = new Book($handler->getBook($book_id));
-        dd($book->author);
+        return view('books.single')->with('book', $book);
     }
 }
