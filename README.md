@@ -7,3 +7,5 @@ To initialize the project I've used:
 ```MD040
 composer create-project laravel/laravel php-test
 ```
+
+To install the project run `composer install`.

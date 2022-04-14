@@ -23,6 +23,13 @@ class QApiHandler {
         ]);
         return $this->response($data);
     }
+
+    public function createAuthor($data, $token = null)
+    {
+        $token = $token ?? $this->user->token_key;
+        $data = $this->client->withToken($token)->post('v2/authors', $data);
+        return $this->response($data);
+    }
     
     public function getAuthors()
     {
