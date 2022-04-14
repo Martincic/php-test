@@ -3,11 +3,10 @@
 namespace App\Providers;
 
 use App\Models\ApiUser;
+use App\Util\QApiHandler;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 
 class QAuthUserProvider implements UserProvider
 {
@@ -32,13 +31,8 @@ class QAuthUserProvider implements UserProvider
 
 	public function retrieveByCredentials(array $credentials) : ?ApiUser
 	{
-		$response = Http::post(env("Q_API"), [
-            // $user is the ApiUser instance created in
-            // the retrieveByCredentials() method above.
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
-        ])->json();
-
+		$handler = new QApiHandler;
+		$response = $handler->attemptLogin($credentials);
 		$user = new ApiUser($response);
 
 		session(['user' => $user]);

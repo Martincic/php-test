@@ -42,7 +42,7 @@ Route::controller(AuthController::class)->prefix('/auth')->group(function (Route
 Route::middleware('auth')->group(function (Router $route): void {
 	// GET
 	$route->get('/home', function () {
-		dd(Auth::user());
+		// dd(Auth::user());
 		return view('home')->with(['user' => Auth::user()]);
 	})->name('home');
 	
