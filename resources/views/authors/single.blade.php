@@ -35,6 +35,11 @@
                     ------------------------------
                 @endforeach
                 </ul>
+            @else
+            <form action="{{route('authors.delete', $author->id)}}" method='post'>
+                @csrf
+                <button style='color:red' type="submit">Delete author</button>
+            </form>
             @endif
         </div>
     </div>

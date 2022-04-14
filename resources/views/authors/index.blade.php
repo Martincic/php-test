@@ -1,6 +1,10 @@
 @extends('template')
 @section('content')
 
+@if (session()->get('author_deleted') != null)
+<h4 style="color:green">Author {{session()->get('author_deleted')->name}} was successfully deleted!</h4>
+@endif
+
 @foreach ($authors as $author)
     <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2">

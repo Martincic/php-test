@@ -31,6 +31,12 @@ class QApiHandler {
         return $this->response($data);
     }
     
+    public function deleteAuthor($id)
+    {
+        $data = $this->client->withToken($this->user->token_key)->delete('v2/authors/'.$id);
+        return $this->response($data);
+    }
+    
     public function getAuthors()
     {
         $data = $this->client->withToken($this->user->token_key)->get('v2/authors');

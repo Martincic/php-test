@@ -28,7 +28,7 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->prefix('/auth')->group(function (Router $route): void {
 	// GET
 	$route->get('login', 'loginPrompt')->name('login');
-	$route->get('/logout', 'logout')->name('logout');
+	$route->get('logout', 'logout')->name('logout');
 
 	// POST
 	$route->post('login', 'login')->name('post-login');	
@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function (Router $route): void {
 		$route->get('', 'index')->name('list');
 		$route->get('{author_id}', 'single')->name('single');
 		
-		// DELETE
-		$route->delete('{author_id}', 'delete')->name('delete');
+		// DELETE (should be delete but form requests dont support DELETE)
+		$route->post('{author_id}', 'delete')->name('delete');
 	});
 	
 	$route->get('/profile', function () {
