@@ -7,6 +7,7 @@ use App\Util\QApiHandler;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Redirect;
 
 class QAuthUserProvider implements UserProvider
 {
@@ -33,11 +34,12 @@ class QAuthUserProvider implements UserProvider
 	{
 		$handler = new QApiHandler;
 		$response = $handler->attemptLogin($credentials);
-		$user = new ApiUser($response);
+
+		$user = $response ? new ApiUser($response) : null;
 
 		session(['user' => $user]);
 		
-		return $user;
+		return $user;	
 	}
 
 	public function validateCredentials(Authenticatable $user, array $credentials)

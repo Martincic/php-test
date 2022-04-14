@@ -20,11 +20,19 @@ class AuthController extends Controller
     
     public function login(Request $request)
     {
-        Auth::attempt([
+        $auth = Auth::attempt([
             'email' => $request->email,
             'password' => $request->password
         ]);
-        
-		return redirect()->intended(route('home'));
+
+        if($auth) {
+            session()->regenerate();
+            return redirect()->intended(route('home'));
+        }
+
+        return redirect(route('login'))->withErrors([
+            'credentials' => 'The provided credentials do not match our records.'
+        ]);
+
     }
 }

@@ -8,9 +8,9 @@ class ApiUser extends GenericUser
 {
     public function __construct(array $attributes)
     {
-        $this->attributes = $attributes;
+        $this->attributes = $attributes ?? null;
 
-        //convert array attribute to object attribute
+        //convert array attributes to object
         $this->attributes['user'] = new User($attributes['user']);
     }
 
