@@ -2,13 +2,17 @@
 
 namespace App\Util;
 
+use App\Models\ApiUser;
 use Illuminate\Support\Facades\Http;
 
 class QApiHandler {
 
-	public function __construct()
+    private ?ApiUser $user;
+
+	public function __construct(?ApiUser $user = null)
 	{
 		$this->client = Http::acceptJson()->baseUrl(env("Q_API"));
+        $this->user = $user;
 	}
 
     public function attemptLogin(array $credentials)

@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class QAuthUserProvider implements UserProvider
 {
-	public function retrieveById($id) : ApiUser
+	public function retrieveById($id)
 	{
 		//if user matches session user, fetch
-		if(session('user')->id == $id) return session('user');
+		if(session('user')?->id == $id) return session('user');
 		
 		//else return generic
 		return new GenericUser(['remember_token'=>null]);
@@ -30,7 +30,7 @@ class QAuthUserProvider implements UserProvider
 		// user provider interface requires
 	}
 
-	public function retrieveByCredentials(array $credentials) : ?ApiUser
+	public function retrieveByCredentials(array $credentials)
 	{
 		$handler = new QApiHandler;
 		$response = $handler->attemptLogin($credentials);

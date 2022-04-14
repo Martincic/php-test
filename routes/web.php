@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\BookController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,27 +28,37 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->prefix('/auth')->group(function (Router $route): void {
 	// GET
 	$route->get('login', 'loginPrompt')->name('login');
-	// $route->post('login', function () {
-	// 	echo 123;
-	// });
-	$route->post('login', 'login')->name('post-login');
-	
-	$route->get('/logout', function () {
-		Auth::logout();
-		return redirect('/');
-	})->name('logout');
+	$route->get('/logout', 'logout')->name('logout');
 
+	// POST
+	$route->post('login', 'login')->name('post-login');	
 });
 
 // PROTECTED ROUTES
 Route::middleware('auth')->group(function (Router $route): void {
-	// GET
-	$route->get('/home', function () {
-		// dd(Auth::user());
-		return view('home')->with(['user' => Auth::user()]);
-	})->name('home');
 	
-	$route->get('/test', function () {
+	// BOOK ROUTES
+	$route->prefix('/books')->name('books.')->controller(BookController::class)->group(function (Router $route): void {
+		// GET
+		$route->get('', 'index')->name('list');
+		$route->get('create', 'create')->name('create');
+		$route->get('{book_id}', 'single')->name('single');
+		
+		// POST
+		$route->post('', 'store')->name('store');
+		
+		// PUT
+		$route->put('{book_id}', 'update')->name('update');
+		
+		// DELETE
+		$route->delete('{book_id}', 'delete')->name('delete');
+	});
+
+	$route->get('/authors', function () {
 		return view('home')->with(['user' => Auth::user()]);
-	})->name('test');
+	})->name('authors');
+	
+	$route->get('/profile', function () {
+		return view('home')->with(['user' => Auth::user()]);
+	})->name('profile');
 });
