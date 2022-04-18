@@ -41,7 +41,11 @@ Route::middleware('auth')->group(function (Router $route): void {
 	$route->prefix('/books')->name('books.')->controller(BookController::class)->group(function (Router $route): void {
 		// GET
 		$route->get('', 'index')->name('list');
+		$route->get('create', 'create')->name('create');
 		$route->get('{book_id}', 'single')->name('single');
+		
+		// POST
+		$route->post('store', 'store')->name('store');
 		
 		// DELETE (should be delete but form requests dont support DELETE)
 		$route->post('{book_id}', 'delete')->name('delete');

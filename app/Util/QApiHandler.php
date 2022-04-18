@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Models\ApiUser;
+use App\Models\Book;
 use Illuminate\Support\Facades\Http;
 
 class QApiHandler {
@@ -64,6 +65,12 @@ class QApiHandler {
     public function deleteBook($id)
     {
         $data = $this->client->withToken($this->user->token_key)->delete('v2/books/'.$id);
+        return $this->response($data);
+    }
+    
+    public function createBook($data)
+    {
+        $data = $this->client->withToken($this->user->token_key)->post('v2/books', $data);
         return $this->response($data);
     }
 
