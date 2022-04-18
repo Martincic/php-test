@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Book;
 use App\Util\QApiHandler;
-use GuzzleHttp\Psr7\Request;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 
