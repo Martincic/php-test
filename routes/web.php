@@ -42,23 +42,23 @@ Route::middleware('auth')->group(function (Router $route): void {
 		// GET
 		$route->get('', 'index')->name('list');
 		$route->get('create', 'create')->name('create');
-		$route->get('{book_id}', 'single')->name('single');
+		$route->get('{book}', 'single')->name('single');
 		
 		// POST
 		$route->post('store', 'store')->name('store');
 		
 		// DELETE (should be delete but form requests dont support DELETE)
-		$route->post('{book_id}', 'delete')->name('delete');
+		$route->post('{book}', 'delete')->name('delete');
 	});
 
 	// AUTHOR ROUTES
 	$route->prefix('/authors')->name('authors.')->controller(AuthorController::class)->group(function (Router $route): void {
 		// GET
 		$route->get('', 'index')->name('list');
-		$route->get('{author_id}', 'single')->name('single');
+		$route->get('{author}', 'single')->name('single');
 		
 		// DELETE (should be delete but form requests dont support DELETE)
-		$route->post('{author_id}', 'delete')->name('delete');
+		$route->post('{author}', 'delete')->name('delete');
 	});
 	
 	// PROFILE ROUTE - seemed like overkill to make a controller just for this

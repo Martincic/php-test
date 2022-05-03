@@ -20,21 +20,17 @@ class AuthorController extends Controller
         return view('authors.index')->with('authors', $authors);
     }
 
-    public function single(string $author_id)
+    public function single(Author $author)
     {
-        $handler = new QApiHandler(Auth::user());
-        $author = new Author($handler->getAuthor($author_id));
-
         return view('authors.single')->with('author', $author);
     }
     
-    public function delete(string $author_id)
+    public function delete(Author $author)
     {
         $handler = new QApiHandler(Auth::user());
-        $author = new Author($handler->getAuthor($author_id));
 
         if($author->books->isEmpty()) {
-            $handler->deleteAuthor($author_id);
+            $handler->deleteAuthor($author->id);
             return redirect('authors')->with('author_deleted', $author);
         }
 

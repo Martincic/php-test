@@ -21,19 +21,14 @@ class BookController extends Controller
         return view('books.index')->with('books', $books);
     }
 
-    public function single(string $book_id)
+    public function single(Book $book)
     {
-        $handler = new QApiHandler(Auth::user());
-        $book = new Book($handler->getBook($book_id));
         return view('books.single')->with('book', $book);
     }
     
-    public function delete(string $book_id)
+    public function delete(Book $book)
     {
-        $handler = new QApiHandler(Auth::user());
-        $book = new Book($handler->getBook($book_id));
-
-        $handler->deleteBook($book_id);
+        $book->delete();
         return redirect('books')->with('book_deleted', $book);
     }
     
@@ -50,21 +45,7 @@ class BookController extends Controller
     
     public function store(HttpRequest $request)
     {
-        $handler = new QApiHandler(Auth::user());
-        
-        $book = [
-            'title' => $request->title,
-            'author' => [
-                'id' => intval($request->author)
-            ],
-            'release_date' => $request->release_date,
-            'description' => $request->description,
-            'isbn' => $request->isbn,
-            'format' => $request->format,
-            'number_of_pages' => intval($request->number_of_pages)
-        ];
-
-        $book = new Book($handler->createBook($book));
+        $book = Book::create($request->all());
         return view('books.single')->with('book', $book);
     }
 }
