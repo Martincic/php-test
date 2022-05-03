@@ -31,8 +31,8 @@ class CreateAuthor extends Command
     public function handle()
     {        
         $credentials = [            
-            'email' => $this->ask('Q-test-API email:', 'ahsoka.tano@q.agency'),
-            'password' => $this->ask('Q-test-API password:', 'Kryze4President'),
+            'email' => $this->ask('Q-test-API email:', env("Q_USER")),
+            'password' => $this->ask('Q-test-API password:', env("Q_PWD")),
         ];
 
         $handler = new QApiHandler();
