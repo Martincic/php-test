@@ -80,4 +80,23 @@ class Book extends Model
 
         return $handler->deleteBook($this->id);
     }
+
+    /**
+     * Get the hydrated models without eager loading.
+     *
+     * @param  array|string  $columns
+     * @return \Illuminate\Database\Eloquent\Model[]|static[]
+     */
+    public static function getModels($columns = ['*'])
+    {
+        $handler = new QApiHandler(Auth::user());
+        $books = collect();
+        foreach($handler->getBooks()['items'] as $item) {
+            //filter incoming data
+            $selected_fields = collect($item)->only($columns)->toArray();
+            if($columns === ['*']) $books->push(new Book($item));
+            else $books->push(new Book($selected_fields));
+        }
+        return $books;
+    }
 }

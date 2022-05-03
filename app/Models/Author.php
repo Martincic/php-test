@@ -48,4 +48,35 @@ class Author extends Model
         $author = new Author($handler->getAuthor($value));
         return $author;
     }
+    
+    /**
+     * Delete records from the database.
+     *
+     * @return mixed
+     */
+    public function delete()
+    {
+        $handler = new QApiHandler(Auth::user());
+
+        return $handler->deleteAuthor($this->id);
+    }
+
+    /**
+     * Get the hydrated models without eager loading.
+     *
+     * @param  array|string  $columns
+     * @return \Illuminate\Database\Eloquent\Model[]|static[]
+     */
+    public static function getModels($columns = ['*'])
+    {
+        $handler = new QApiHandler(Auth::user());
+        $authors = collect();
+        foreach($handler->getAuthors()['items'] as $item) {
+            //filter incoming data
+            $selected_fields = collect($item)->only($columns)->toArray();
+            if($columns === ['*']) $authors->push(new Author($item));
+            else $authors->push(new Author($selected_fields));
+        }
+        return $authors;
+    }
 }

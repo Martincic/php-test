@@ -11,11 +11,7 @@ class AuthorController extends Controller
 {
     public function index()
     {
-        $handler = new QApiHandler(Auth::user());
-        $authors = collect();
-        foreach($handler->getAuthors()['items'] as $item) {
-            $authors->push(new Author($item));
-        }
+        $authors = Author::getModels();
 
         return view('authors.index')->with('authors', $authors);
     }
@@ -27,14 +23,9 @@ class AuthorController extends Controller
     
     public function delete(Author $author)
     {
-        $handler = new QApiHandler(Auth::user());
+        $author->delete();
 
-        if($author->books->isEmpty()) {
-            $handler->deleteAuthor($author->id);
-            return redirect('authors')->with('author_deleted', $author);
-        }
-
-        return view('authors.single')->with('author', $author);
+        return redirect('authors')->with('author_deleted', $author);
     }
 }
 
